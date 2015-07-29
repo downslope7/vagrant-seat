@@ -8,7 +8,7 @@ git clone https://github.com/eve-seat/seat.git -b dev /vagrant/seat-dev
 cd /vagrant/seat-dev/
 
 composer install
-wget https://raw.githubusercontent.com/downslope7/vagrant-seat/master/.env.php
+curl https://raw.githubusercontent.com/downslope7/vagrant-seat/master/.env.php > .env.php
 
 php artisan migrate
 php artisan db:seed
