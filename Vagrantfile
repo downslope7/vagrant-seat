@@ -9,7 +9,7 @@ github_url      = "https://raw.githubusercontent.com/#{github_username}/#{github
 
 # Server Configuration
 
-hostname        = "seat-1"
+hostname        = "seat-devel"
 
 # Set a local private network IP address.
 # See http://en.wikipedia.org/wiki/Private_network for explanation
@@ -154,18 +154,20 @@ Vagrant.configure("2") do |config|
     provider.region = 'nyc2'
     provider.size = '512mb'
   end
+  config.vm.provision "fix-no-tty", type: "shell" do |s|
+      s.privileged = false
+      s.inline = "sudo sed -i '/tty/!s/mesg n/tty -s \\&\\& mesg n/' /root/.profile"
+  end
+  
+  # optimize base box
+  config.vm.provision "shell", path: "#{github_url}/scripts/base_box_optimizations.sh", privileged: true
+  
 
   # Provision Base Packages
   config.vm.provision "shell", path: "#{github_url}/scripts/base.sh", args: [github_url, server_swap, server_timezone]
 
-  # optimize base box
-  config.vm.provision "shell", path: "#{github_url}/scripts/base_box_optimizations.sh", privileged: true
-
   # Provision PHP
   config.vm.provision "shell", path: "#{github_url}/scripts/php.sh", args: [php_timezone, hhvm, php_version]
-
-  # Provision Apache Base
-  config.vm.provision "shell", path: "#{github_url}/scripts/apache.sh", args: [server_ip, public_folder, hostname, github_url]
 
   # Provision MySQL
   config.vm.provision "shell", path: "#{github_url}/scripts/mysql.sh", args: [mysql_root_password, mysql_version, mysql_enable_remote]
@@ -173,15 +175,20 @@ Vagrant.configure("2") do |config|
 
   # Provision Redis (without journaling and persistence)
   config.vm.provision "shell", path: "#{github_url}/scripts/redis.sh"
-
-  # Install Supervisord
-  config.vm.provision "shell", path: "#{github_url}/scripts/supervisord.sh"
-
+  
   # Provision Composer
   config.vm.provision "shell", path: "#{github_url}/scripts/composer.sh", privileged: false, args: composer_packages.join(" ")
 
   # Install SeAT
   config.vm.provision "shell", path: "#{github_url}/scripts/seat.sh"
+  
+  # Install Supervisord
+  config.vm.provision "shell", path: "#{github_url}/scripts/supervisord.sh"
+  
+
+  # Provision Apache Base
+  config.vm.provision "shell", path: "#{github_url}/scripts/apache.sh", args: [server_ip, public_folder, hostname, github_url]
+
 
   # Install cronjob
   config.vm.provision "shell", path: "#{github_url}/scripts/cron.sh"

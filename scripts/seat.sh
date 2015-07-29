@@ -13,6 +13,9 @@ curl https://raw.githubusercontent.com/downslope7/vagrant-seat/master/.env.php >
 php artisan migrate
 php artisan db:seed
 php artisan seat:update-sde --confirm
-php artisan seat:groupsync
 php artisan key:generate
 touch .installed.lck
+
+# you need to run
+# php artisan seat:reset
+# php artisan seat:groupsync
