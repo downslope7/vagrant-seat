@@ -2,14 +2,14 @@
 # vi: set ft=ruby :
 
 # Config Github Settings
-github_username = "t3rminalVel0city"
+github_username = "downslope7"
 github_repo     = "vagrant-seat"
 github_branch   = "master"
 github_url      = "https://raw.githubusercontent.com/#{github_username}/#{github_repo}/#{github_branch}"
 
 # Server Configuration
 
-hostname        = "seat-devel"
+hostname        = "seat-1"
 
 # Set a local private network IP address.
 # See http://en.wikipedia.org/wiki/Private_network for explanation

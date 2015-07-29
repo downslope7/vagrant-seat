@@ -42,9 +42,9 @@ PASSPHRASE="vaprobash"
 
 SUBJ="
 C=US
-ST=Connecticut
-O=Vaprobash
-localityName=New Haven
+ST=Texas
+O=slope
+localityName=New Washington
 commonName=$DOMAIN
 organizationalUnitName=
 emailAddress=

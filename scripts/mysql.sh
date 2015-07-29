@@ -19,8 +19,8 @@ fi
 
 # Install MySQL without password prompt
 # Set username and password to 'root'
-sudo debconf-set-selections <<< "mysql-server mysql-server/root_password password $1"
-sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again password $1"
+echo mysql-server mysql-server/root_password password root | sudo debconf-set-selections
+echo mysql-server mysql-server/root_password_again password root | sudo debconf-set-selections
 
 # Install MySQL Server
 # -qq implies -y --force-yes
@@ -40,7 +40,7 @@ if [ $3 == "true" ]; then
     Q2="FLUSH PRIVILEGES;"
     SQL="${Q1}${Q2}"
 
-    $MYSQL -uroot -p$1 -e "$SQL"
+    $MYSQL -uroot -proot -e "$SQL"
 
     service mysql restart
 fi
