@@ -7,10 +7,12 @@ git clone https://github.com/eve-seat/seat.git -b dev /vagrant/seat-dev
 
 cd /vagrant/seat-dev/
 
-wget https://raw.githubusercontent.com/t3rminalVel0city/vagrant-seat/master/.env.php
-
 composer install
+wget https://raw.githubusercontent.com/downslope7/vagrant-seat/master/.env.php
 
 php artisan migrate
-
 php artisan db:seed
+php artisan seat:update-sde --confirm
+php artisan seat:groupsync
+php artisan key:generate
+touch .installed.lck
